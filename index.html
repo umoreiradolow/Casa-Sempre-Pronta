@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa Sempre Pronta — Sistema de Organização Doméstica</title>
+  
+  <!-- Meta Pixel do Facebook -->
+  <!-- META PIXEL AQUI -->
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & CSS VARIABLES
+       ========================================================================== */
+    :root {
+      --primary: #D4507A;        /* rosa quente — CTAs, top bar, badges */
+      --secondary: #C23B60;      /* rosa escuro — hover, textos de ênfase */
+      --accent: #F4775A;         /* coral — destaques itálicos */
+      --dark: #1A1A1A;           /* quase preto — seção final, textos principais */
+      --offwhite: #F7F5F1;       /* fundo alternado das seções */
+      --white: #FFFFFF;
+      --text-main: #3D3D3D;      /* corpo de texto */
+      --text-muted: #888888;     /* textos secundários */
+      --green: #1D9E75;          /* preço final, checkmarks */
+      --red-strike: #B91C1C;     /* preço riscado */
+      
+      --transition-fast: 0.2s ease;
+      --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Reset & Base Styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-main);
+      background-color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Headings */
+    h1, h2, h3, h4 {
+      color: var(--dark);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    /* Headings italic highlight style */
+    .highlight-italic {
+      color: var(--accent);
+      font-style: italic;
+      text-transform: none; /* Mantém o formato itálico elegante */
+    }
+
+    /* Links & Buttons */
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--offwhite);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D5D0C7;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #BCB6AA;
+    }
+
+    /* ==========================================================================
+       REUSABLE UTILITIES & COMPONENTS
+       ========================================================================== */
+    .section-container {
+      width: 100%;
+      padding: 80px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (min-width: 768px) {
+      .section-container {
+        padding: 100px 24px;
+      }
+    }
+
+    .section-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Badge Pill Pequeno */
+    .badge-pill {
+      background: rgba(212, 80, 122, 0.12);
+      color: var(--primary);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 24px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    /* Botão CTA Primário */
+    .btn-cta-primary {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 100px;
+      padding: 18px 40px;
+      font-weight: 800;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+      width: 100%;
+      max-width: 400px;
+      user-select: none;
+    }
+    @media (min-width: 768px) {
+      .btn-cta-primary {
+        font-size: 18px;
+      }
+    }
+    .btn-cta-primary:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+    .btn-cta-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Botão CTA Outline/Secundário */
+    .btn-cta-outline {
+      display: inline-block;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+      border-radius: 100px;
+      padding: 16px 36px;
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      text-align: center;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+      width: 100%;
+      max-width: 400px;
+    }
+    .btn-cta-outline:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .btn-cta-outline:active {
+      transform: translateY(0);
+    }
+
+    /* Image Placeholders */
+    .image-placeholder {
+      background: #F0EDE8;
+      border-radius: 24px;
+      border: 1px dashed #D5D0C7;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .image-placeholder::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 80%);
+      pointer-events: none;
+    }
+    .image-placeholder-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      opacity: 0.6;
+    }
+
+    /* ==========================================================================
+       SECTION 1 — TOP BAR
+       ========================================================================== */
+    .top-bar {
+      background-color: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+    }
+
+    /* ==========================================================================
+       SECTION 2 — HERO
+       ========================================================================== */
+    .hero-section {
+      background-color: var(--white);
+      text-align: center;
+    }
+    .hero-inner {
+      max-width: 900px;
+    }
+    .hero-title {
+      font-size: 32px;
+      margin-bottom: 28px;
+      line-height: 1.25;
+    }
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 56px;
+        line-height: 1.15;
+      }
+    }
+    .highlight-marker {
+      background-color: #E2EEFC;
+      color: var(--dark);
+      padding: 2px 12px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .highlight-pink {
+      color: var(--primary);
+    }
+    .hero-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-main);
+      max-width: 680px;
+      margin: 0 auto 40px auto;
+      line-height: 1.6;
+    }
+    @media (min-width: 768px) {
+      .hero-subtitle {
+        font-size: 18px;
+      }
+    }
+    .hero-image-container {
+      width: 100%;
+      max-width: 850px;
+      margin: 0 auto 40px auto;
+      border-radius: 24px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+    .hero-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hero-trust-box {
+      background: rgba(212, 80, 122, 0.04);
+      border: 1px solid rgba(212, 80, 122, 0.15);
+      border-radius: 24px;
+      padding: 20px 24px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      text-align: left;
+      margin-top: 16px;
+      max-width: 100%;
+    }
+    @media (min-width: 768px) {
+      .hero-trust-box {
+        padding: 24px 36px;
+        gap: 16px;
+      }
+    }
+    .hero-trust-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--dark);
+    }
+    @media (min-width: 768px) {
+      .hero-trust-row {
+        font-size: 14px;
+      }
+    }
+    .hero-trust-row.highlighted {
+      color: var(--primary);
+    }
+    .hero-trust-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+    @media (min-width: 768px) {
+      .hero-trust-icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    /* ==========================================================================
+       SECTION 3 — DOR (PAIN POINTS)
+       ========================================================================== */
+    .dor-section {
+      background-color: #EBF2FD; /* Azul pastel do modelo de referência */
+      text-align: center;
+    }
+    .dor-inner {
+      max-width: 1000px;
+    }
+    .dor-title {
+      font-size: 28px;
+      margin-bottom: 24px;
+      color: #1E2A4A; /* Azul marinho escuro do modelo */
+    }
+    @media (min-width: 768px) {
+      .dor-title {
+        font-size: 44px;
+      }
+    }
+    .dor-title-highlight {
+      color: var(--primary); /* Rosa destaque */
+      font-style: italic;
+      text-transform: uppercase;
+    }
+    .dor-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      font-style: italic;
+      max-width: 640px;
+      margin: 0 auto 48px auto;
+      color: #2D3E50; /* Azul acinzentado do subtítulo */
+      line-height: 1.6;
+    }
+    @media (min-width: 768px) {
+      .dor-subtitle {
+        font-size: 17px;
+      }
+    }
+    .dor-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      width: 100%;
+    }
+    @media (min-width: 540px) {
+      .dor-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 900px) {
+      .dor-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .dor-card {
+      background: var(--white);
+      border-radius: 16px; /* Bordas arredondadas e limpas do modelo */
+      padding: 24px;
+      border: 1px solid #DBEAFE; /* Borda azul clara do modelo */
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      text-align: left;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .dor-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(30, 58, 138, 0.08); /* Sombra suave azulada */
+    }
+    .dor-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .dor-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1E2A4A; /* Texto em azul marinho escuro */
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       SECTION 4 — CONTEÚDO DO PRODUTO
+       ========================================================================== */
+    .produto-section {
+      background-color: var(--white);
+    }
+    .produto-container {
+      background-color: #EBF2FD; /* Fundo azul claro do modelo de referência */
+      border: 1px solid #DBEAFE; /* Borda azul suave */
+      border-radius: 40px;
+      padding: 40px 24px;
+      width: 100%;
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+    @media (min-width: 768px) {
+      .produto-container {
+        border-radius: 64px;
+        padding: 60px 80px 80px 80px; /* Padding interno generoso */
+      }
+    }
+    .produto-title {
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 24px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #1E2A4A; /* azul marinho */
+    }
+    @media (min-width: 768px) {
+      .produto-title {
+        font-size: 40px;
+      }
+    }
+    .produto-title-highlight {
+      color: var(--primary); /* rosa destaque */
+      font-style: italic;
+      text-transform: uppercase;
+    }
+    .produto-subtitle-attention {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2D3E50; /* azul acinzentado */
+      max-width: 760px;
+      margin: 0 auto 48px auto;
+      text-align: center;
+      line-height: 1.6;
+    }
+    @media (min-width: 768px) {
+      .produto-subtitle-attention {
+        font-size: 14px;
+      }
+    }
+    .produto-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      width: 100%;
+    }
+    @media (min-width: 900px) {
+      .produto-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .produto-card {
+      background: var(--white);
+      border-radius: 24px; /* cantos arredondados do modelo */
+      padding: 36px;
+      border: 1px solid #DBEAFE; /* borda azul clara */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .produto-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(30, 58, 138, 0.08); /* sombra suave azulada */
+    }
+    .produto-card-icon-wrapper {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px; /* quadrado levemente arredondado do modelo */
+      background: rgba(59, 130, 246, 0.12); /* fundo azul claro */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      margin-bottom: 24px;
+    }
+    .produto-card-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1E2A4A; /* azul marinho */
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .produto-card-list {
+      list-style: none;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .produto-card-item {
+      font-size: 14px;
+      font-weight: 500;
+      color: #2D3E50; /* azul acinzentado */
+      position: relative;
+      padding-left: 28px;
+      line-height: 1.4;
+      text-align: left;
+    }
+    .produto-card-item::before {
+      content: '♥'; /* coração rosa do modelo */
+      font-size: 16px;
+      position: absolute;
+      left: 0;
+      top: -1px;
+      color: var(--primary); /* rosa destaque */
+    }
+
+    /* ==========================================================================
+       SECTION 5 — BRIDGE DE IDENTIDADE
+       ========================================================================== */
+    .bridge-section {
+      background-color: #EBF2FD; /* azul pastel */
+      text-align: center;
+    }
+    .bridge-inner {
+      max-width: 800px;
+    }
+    .bridge-title {
+      font-size: 24px;
+      margin-bottom: 24px;
+      color: #1E2A4A; /* azul marinho */
+    }
+    @media (min-width: 768px) {
+      .bridge-title {
+        font-size: 32px;
+      }
+    }
+    .bridge-title-highlight {
+      color: var(--primary); /* rosa destaque */
+      font-style: italic;
+      text-transform: uppercase;
+    }
+    .bridge-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: #2D3E50; /* azul acinzentado */
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    @media (min-width: 768px) {
+      .bridge-text {
+        font-size: 17px;
+      }
+    }
+    .bridge-highlight-line {
+      font-size: 16px;
+      font-weight: 800;
+      color: #2E6BE6; /* azul royal do modelo */
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.4;
+    }
+    @media (min-width: 768px) {
+      .bridge-highlight-line {
+        font-size: 20px;
+      }
+    }
+
+    /* ==========================================================================
+       SECTION 6 — BÔNUS
+       ========================================================================== */
+    .bonus-section {
+      background-color: var(--white);
+    }
+    .bonus-inner {
+      max-width: 900px;
+      text-align: center;
+    }
+    .bonus-title {
+      font-size: 32px;
+      margin-bottom: 8px;
+      color: #1E2A4A; /* azul marinho */
+    }
+    @media (min-width: 768px) {
+      .bonus-title {
+        font-size: 48px;
+      }
+    }
+    .bonus-subtitle {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary); /* rosa destaque */
+      font-style: italic;
+      margin-bottom: 48px;
+      text-transform: uppercase;
+    }
+    @media (min-width: 768px) {
+      .bonus-subtitle {
+        font-size: 36px;
+      }
+    }
+    .bonus-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+      max-width: 680px; /* Largura máxima para centralizar e compactar os cards */
+      margin: 0 auto;
+    }
+    .bonus-card {
+      background: #E2EEFC; /* card com azul bem claro do modelo */
+      border-radius: 20px;
+      border: 1px solid #DBEAFE;
+      padding: 36px 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      text-align: center;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    @media (min-width: 768px) {
+      .bonus-card {
+        flex-direction: row;
+        text-align: left;
+        padding: 40px 48px;
+        align-items: center;
+      }
+    }
+    .bonus-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(30, 58, 138, 0.08); /* sombra suave azulada */
+    }
+    .bonus-badge {
+      position: absolute;
+      top: -10px; /* Sobrepõe a borda superior do card */
+      right: 24px; /* Afastado da ponta direita */
+      background: var(--primary); /* badge rosa destaque */
+      color: var(--white);
+      padding: 5px 16px;
+      border-radius: 100px; /* Estilo pílula arredondada do modelo de referência */
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 4px 10px rgba(212, 80, 122, 0.2);
+    }
+    .bonus-icon-wrapper {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px; /* quadrado arredondado do modelo */
+      background: var(--white);
+      box-shadow: 0 8px 20px rgba(30, 58, 138, 0.05);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+    .bonus-content {
+      flex-grow: 1;
+    }
+    .bonus-special-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary); /* rosa destaque */
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+    .bonus-card-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1E2A4A; /* azul marinho */
+      margin-bottom: 8px;
+    }
+    @media (min-width: 768px) {
+      .bonus-card-title {
+        font-size: 24px;
+      }
+    }
+    .bonus-card-desc {
+      font-size: 14px;
+      font-weight: 500;
+      color: #2D3E50; /* azul acinzentado */
+      line-height: 1.5;
+    }
+    @media (min-width: 768px) {
+      .bonus-card-desc {
+        font-size: 15px;
+      }
+    }
+
+    /* ==========================================================================
+       SECTION 7 — DEPOIMENTOS
+       ========================================================================== */
+    .depoimentos-section {
+      background-color: var(--white);
+      text-align: center;
+    }
+    .depoimentos-inner {
+      max-width: 700px;
+    }
+    .depoimentos-title {
+      font-size: 24px;
+      margin-bottom: 48px;
+    }
+    @media (min-width: 768px) {
+      .depoimentos-title {
+        font-size: 32px;
+      }
+    }
+    .depoimento-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      width: 100%;
+      align-items: center;
+    }
+    .depoimento-card {
+      background: var(--white);
+      border-radius: 24px;
+      border: 1px solid #DBEAFE; /* borda azul claro suave */
+      padding: 40px 24px;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(30, 58, 138, 0.04);
+      transition: transform var(--transition-fast);
+    }
+    .depoimento-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(30, 58, 138, 0.06);
+    }
+    .depoimento-avatar-wrapper {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 3px solid #EBF2FD;
+      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.06);
+    }
+    .depoimento-avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .depoimento-stars {
+      font-size: 20px;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .depoimento-text {
+      font-size: 15px;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--text-main);
+      line-height: 1.6;
+      max-width: 500px;
+      margin-bottom: 16px;
+    }
+    .depoimento-name {
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    /* ==========================================================================
+       SECTION 7.5 — GARANTIA
+       ========================================================================== */
+    .garantia-section {
+      background-color: var(--white);
+    }
+    .garantia-container {
+      background-color: #FDF6F8; /* fundo rosa claro suave do concorrente */
+      border-radius: 40px;
+      padding: 48px 24px;
+      border: 1px solid #F5E3E6; /* borda rosa pastel suave */
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      box-shadow: 0 20px 45px rgba(224, 82, 130, 0.05); /* sombra rosa suave */
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .garantia-container {
+        flex-direction: row;
+        text-align: left;
+        padding: 60px 80px;
+        gap: 60px;
+        border-radius: 48px;
+      }
+    }
+    .garantia-badge-circle {
+      width: 180px;
+      height: 180px;
+      background-color: #E05282; /* rosa vivo da referência */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 12px 28px rgba(224, 82, 130, 0.25);
+    }
+    .garantia-circle-inner {
+      border: 1.5px dashed rgba(255, 255, 255, 0.6); /* traço branco mais nítido */
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      line-height: 1.1;
+    }
+    .garantia-circle-num {
+      font-size: 76px;
+      font-weight: 800;
+      margin-bottom: 0px;
+      letter-spacing: -0.02em;
+    }
+    .garantia-circle-unit {
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 2px;
+    }
+    .garantia-circle-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .garantia-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .garantia-content {
+        align-items: flex-start;
+      }
+    }
+    .garantia-pill {
+      background-color: #E05282; /* rosa vivo da referência */
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 8px 20px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .garantia-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1E2A4A;
+      margin-bottom: 20px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    @media (min-width: 768px) {
+      .garantia-title {
+        font-size: 34px;
+      }
+    }
+    .garantia-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: #2D3E50;
+      line-height: 1.65;
+    }
+    .garantia-highlight-text {
+      font-weight: 700;
+      color: #1E2A4A;
+      border-bottom: 2.5px solid #E05282; /* sublinhado rosa espesso da referência */
+      padding-bottom: 1px;
+    }
+
+    /* ==========================================================================
+       SECTION 8 — PREÇOS
+       ========================================================================== */
+    .precos-section {
+      background-color: #EBF2FD; /* azul pastel do modelo */
+      text-align: center;
+    }
+    .precos-inner {
+      max-width: 1000px;
+    }
+    .precos-title {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #1E2A4A; /* azul marinho */
+    }
+    @media (min-width: 768px) {
+      .precos-title {
+        font-size: 44px;
+      }
+    }
+    .precos-title-highlight {
+      color: #1E2A4A;
+      font-style: italic;
+      text-transform: uppercase;
+    }
+    .precos-subtitle-pink {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary); /* rosa destaque */
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+      display: block;
+    }
+    @media (min-width: 768px) {
+      .precos-subtitle-pink {
+        font-size: 14px;
+        letter-spacing: 0.15em;
+      }
+    }
+    .precos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      width: 100%;
+      align-items: start; /* Alinha os cards pelo topo, eliminando o espaço vazio no card menor */
+    }
+    @media (min-width: 768px) {
+      .precos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+      }
+    }
+
+    /* Card de Preço */
+    .preco-card {
+      background: var(--white);
+      border-radius: 32px;
+      border: 1px solid #DBEAFE;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      width: 100%;
+      max-width: 360px; /* Limita a largura em dispositivos móveis para que fiquem mais "gordinhos" */
+      margin: 0 auto; /* Centraliza o card */
+      box-shadow: 0 20px 45px rgba(30, 58, 138, 0.05);
+      scroll-margin-top: 50px; /* Garante que o topo do card fique visível no scroll direto */
+      overflow: hidden; /* Garante o recorte correto da faixa de destaque e do cabeçalho */
+    }
+    @media (min-width: 768px) {
+      .preco-card {
+        border-radius: 40px;
+        max-width: 440px; /* Limita a largura no desktop */
+      }
+    }
+    .preco-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 55px rgba(30, 58, 138, 0.08);
+    }
+    .preco-card-banner {
+      background-color: var(--primary);
+      color: var(--white);
+      width: 100%;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.25em; /* mesmo estilo do topo da LP */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* divisória sutil */
+    }
+    @media (min-width: 768px) {
+      .preco-card-banner {
+        font-size: 11px;
+        padding: 12px 24px;
+      }
+    }
+    .pulse-text {
+      display: inline-block;
+      animation: pulse-text-anim 2s infinite ease-in-out;
+    }
+    @keyframes pulse-text-anim {
+      0% {
+        transform: scale(1);
+        opacity: 0.95;
+      }
+      50% {
+        transform: scale(1.04);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.95;
+      }
+    }
+    .preco-card-header-bar {
+      background: var(--primary);
+      color: var(--white);
+      width: 100%;
+      padding: 12px 24px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .preco-card-header-bar {
+        font-size: 12px;
+        padding: 14px 24px;
+      }
+    }
+    .preco-card-body {
+      padding: 36px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      flex-grow: 1;
+    }
+    @media (min-width: 768px) {
+      .preco-card-body {
+        padding: 48px;
+      }
+    }
+    .preco-card-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1E2A4A;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    @media (min-width: 768px) {
+      .preco-card-title {
+        font-size: 26px;
+      }
+    }
+    .preco-card-subtitle {
+      font-size: 11px;
+      font-weight: 700;
+      color: #2D3E50;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 28px;
+    }
+    @media (min-width: 768px) {
+      .preco-card-subtitle {
+        font-size: 12px;
+      }
+    }
+
+    /* Lista de Recursos */
+    .preco-features-list {
+      list-style: none;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+      padding: 0;
+      border: none;
+    }
+    .preco-feature-item {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2D3E50;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+    @media (min-width: 768px) {
+      .preco-feature-item {
+        font-size: 14px;
+      }
+    }
+    .preco-feature-item::before {
+      content: '♥';
+      font-size: 16px;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+    .preco-feature-item.preco-feature-bonus::before {
+      content: '🎁'; /* Emoji de presente para os bônus */
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .preco-feature-item .tag-bonus {
+      background: rgba(212, 80, 122, 0.12);
+      color: var(--primary);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      margin-left: 6px;
+      display: inline-block;
+      vertical-align: middle;
+      text-transform: uppercase;
+    }
+
+    /* Box de Preço no Estilo Mockup */
+    .preco-box-container {
+      background: #EBF2FD; /* azul claro */
+      border-radius: 24px;
+      width: 100%;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto; /* empurra o box de preço para a base do card */
+      margin-bottom: 28px;
+      border: 1px solid #DBEAFE;
+    }
+    .preco-box-original {
+      font-size: 11px;
+      font-weight: 700;
+      color: #7C8BA1;
+      text-decoration: line-through;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .preco-box-value-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      color: #1E2A4A;
+      line-height: 1;
+    }
+    .preco-box-value-integer {
+      font-size: 72px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+    @media (min-width: 768px) {
+      .preco-box-value-integer {
+        font-size: 84px;
+      }
+    }
+    .preco-box-value-decimal-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 4px;
+      margin-top: 10px;
+    }
+    @media (min-width: 768px) {
+      .preco-box-value-decimal-col {
+        margin-top: 12px;
+      }
+    }
+    .preco-box-value-decimal {
+      font-size: 24px;
+      font-weight: 800;
+    }
+    @media (min-width: 768px) {
+      .preco-box-value-decimal {
+        font-size: 28px;
+      }
+    }
+    .preco-box-value-currency {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 2px;
+    }
+    .preco-box-footer-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #7C8BA1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 12px;
+    }
+
+    /* Botão de Compra Mockup */
+    .btn-preco-cta {
+      background: #22C55E; /* verde conversão */
+      color: var(--white);
+      border-radius: 100px;
+      padding: 16px 24px;
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(34, 197, 94, 0.25);
+    }
+    @media (min-width: 768px) {
+      .btn-preco-cta {
+        padding: 18px 32px;
+        font-size: 16px;
+      }
+    }
+    .btn-preco-cta:hover {
+      background: #16A34A;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.35);
+    }
+    .preco-under-cta-desc {
+      font-size: 11px;
+      font-weight: 700;
+      color: #B45309; /* cor laranja/marrom de alerta */
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: center;
+    }
+    .preco-security-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #7C8BA1;
+    }
+    .preco-security-badge-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .preco-security-badge-item svg {
+      width: 12px;
+      height: 12px;
+      fill: #7C8BA1;
+    }
+    .preco-tag-destaque {
+      background: rgba(212, 80, 122, 0.1);
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    /* ==========================================================================
+       SECTION 9 — FAQ
+       ========================================================================== */
+    .faq-section {
+      background-color: var(--offwhite);
+      text-align: center;
+    }
+    .faq-inner {
+      max-width: 740px;
+    }
+    .faq-title {
+      font-size: 28px;
+      margin-bottom: 40px;
+    }
+    @media (min-width: 768px) {
+      .faq-title {
+        font-size: 44px;
+      }
+    }
+    .faq-container {
+      background: var(--white);
+      border-radius: 40px;
+      padding: 32px 24px;
+      border: 1px solid #E5E5E5;
+      width: 100%;
+      text-align: left;
+    }
+    @media (min-width: 768px) {
+      .faq-container {
+        border-radius: 48px;
+        padding: 64px;
+      }
+    }
+    .faq-item {
+      border-bottom: 1px solid #F0F0F0;
+    }
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    .faq-item summary {
+      font-size: 15px;
+      font-weight: 700;
+      padding: 24px 0;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--dark);
+      user-select: none;
+    }
+    @media (min-width: 768px) {
+      .faq-item summary {
+        font-size: 17px;
+      }
+    }
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+    .faq-item summary::after {
+      content: '+';
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--primary);
+      transition: transform var(--transition-fast) ease;
+      margin-left: 16px;
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after {
+      content: '−';
+      color: var(--secondary);
+    }
+    .faq-content {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      padding: 0 0 24px 0;
+      line-height: 1.6;
+    }
+    @media (min-width: 768px) {
+      .faq-content {
+        font-size: 15px;
+      }
+    }
+
+    /* ==========================================================================
+       SECTION 10 — CTA FINAL
+       ========================================================================== */
+    .cta-final-section {
+      background-color: #1E2A4A; /* azul marinho do modelo */
+      color: var(--white);
+      padding: 100px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (min-width: 768px) {
+      .cta-final-section {
+        padding: 120px 24px;
+      }
+    }
+    .cta-final-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      max-width: 1000px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%); /* brilho azul suave */
+      pointer-events: none;
+      z-index: 1;
+    }
+    .cta-final-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cta-final-title {
+      font-size: 32px;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 2px;
+      font-style: italic; /* itálico do modelo */
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+    .cta-final-title-sub {
+      color: #3B82F6; /* azul royal do modelo */
+      font-style: italic; /* itálico do modelo */
+      font-size: 32px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+    @media (min-width: 768px) {
+      .cta-final-title {
+        font-size: 64px;
+      }
+      .cta-final-title-sub {
+        font-size: 64px;
+        margin-bottom: 32px;
+      }
+    }
+    .cta-final-subtext {
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 700px;
+      margin: 0 auto 36px auto;
+      line-height: 1.6;
+    }
+    @media (min-width: 768px) {
+      .cta-final-subtext {
+        font-size: 16px;
+        letter-spacing: 0.15em;
+      }
+    }
+    .btn-cta-final {
+      background: #22C55E; /* verde conversão */
+      color: var(--white);
+      border-radius: 100px;
+      padding: 18px 40px;
+      font-weight: 800;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: none;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.4);
+      display: inline-block;
+      margin-bottom: 12px;
+      text-align: center;
+      width: 100%;
+      max-width: 380px;
+    }
+    @media (min-width: 768px) {
+      .btn-cta-final {
+        padding: 20px 48px;
+        font-size: 17px;
+        max-width: 420px;
+      }
+    }
+    .btn-cta-final:hover {
+      background: #16A34A;
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(34, 197, 94, 0.5);
+    }
+    .cta-final-alert {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.75);
+      margin-top: 4px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .cta-alert-icon {
+      color: #F59E0B; /* amarelo-ouro */
+      font-weight: 700;
+    }
+    .cta-final-trust {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 12px 16px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #7C8BA1; /* azul acinzentado */
+      margin-top: 16px;
+    }
+    @media (min-width: 768px) {
+      .cta-final-trust {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        gap: 12px 24px;
+      }
+    }
+    .trust-divider {
+      color: rgba(124, 139, 161, 0.3);
+    }
+    .trust-icon-blue {
+      color: #3B82F6;
+      margin-right: 4px;
+    }
+    .trust-icon-pink {
+      color: var(--primary);
+      margin-right: 4px;
+    }
+
+    /* ==========================================================================
+       RODAPÉ
+       ========================================================================== */
+    .footer {
+      background-color: var(--white);
+      border-top: 1px solid #EBEBEB;
+      padding: 64px 24px;
+      text-align: center;
+    }
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 20px;
+      color: var(--dark);
+      margin-bottom: 24px;
+    }
+    @media (min-width: 768px) {
+      .footer-logo {
+        font-size: 24px;
+      }
+    }
+    .footer-logo svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--primary);
+    }
+    .footer-copyright {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    @media (min-width: 768px) {
+      .footer-copyright {
+        font-size: 11px;
+        letter-spacing: 0.25em;
+      }
+    }
+    .footer-disclaimer {
+      font-size: 10px;
+      color: #BBBBBB;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SEÇÃO 1 — TOP BAR -->
+  <div class="top-bar">
+    ✨ Oferta Especial de Lançamento: Acesso Imediato
+  </div>
+
+  <!-- SEÇÃO 2 — HERO -->
+  <section class="section-container hero-section">
+    <div class="hero-inner">
+      <span class="badge-pill">Sistema de Organização Doméstica</span>
+      <h1 class="hero-title">
+        O PROTOCOLO DE <span class="highlight-marker">15 MINUTOS</span><br>
+        QUE MANTÉM SUA CASA<br>
+        <span class="highlight-pink">SEMPRE ORGANIZADA</span>
+      </h1>
+      <p class="hero-subtitle">
+        Chega de correr atrás do prejuízo e se esgotar no fim de semana.<br>
+        Com um protocolo simples e rápido, você blinda a sua rotina e garante um fim de semana 100% livre.
+      </p>
+      
+      <!-- Imagem do Produto -->
+      <div class="hero-image-container">
+        <img src="hero_mockup.jpg" alt="Método Casa Sempre Pronta — Mockup Completo do Produto" class="hero-image">
+      </div>
+
+
+
+      <!-- Bloco de Trust Box Stacked -->
+      <div class="hero-trust-box">
+        <div class="hero-trust-row">
+          <svg class="hero-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
+            <path d="M12 18h.01"/>
+          </svg>
+          <span>Receba no e-mail e WhatsApp</span>
+        </div>
+        <div class="hero-trust-row highlighted">
+          <svg class="hero-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+          <span>Acesso vitalício e imediato</span>
+        </div>
+        <div class="hero-trust-row">
+          <svg class="hero-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/>
+            <path d="M12 22V12"/>
+            <polyline points="3.29 7 12 12 20.71 7"/>
+          </svg>
+          <span>Sem frete (100% digital)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 3 — DOR -->
+  <section class="section-container dor-section">
+    <div class="dor-inner">
+      <h2 class="dor-title">
+        VOCÊ LIMPA, ARRUMA, ORGANIZA…<br>
+        <span class="dor-title-highlight">E A BAGUNÇA VOLTA NO MESMO DIA.</span>
+      </h2>
+      <p class="dor-subtitle">
+        "No corre-corre do dia, a casa nunca parece realmente pronta. E você sente que podia estar fazendo mais — mas não sabe por onde começar."
+      </p>
+
+      <div class="dor-grid">
+        <!-- Card 1 -->
+        <div class="dor-card">
+          <div class="dor-icon">🧹</div>
+          <div class="dor-text">Arrumar tudo de uma vez e a bagunça voltar em poucas horas</div>
+        </div>
+        <!-- Card 2 -->
+        <div class="dor-card">
+          <div class="dor-icon">⏰</div>
+          <div class="dor-text">Perder o fim de semana inteiro com faxina pesada</div>
+        </div>
+        <!-- Card 3 -->
+        <div class="dor-card">
+          <div class="dor-icon">😩</div>
+          <div class="dor-text">Cansaço só de pensar no tanto que tem pra fazer</div>
+        </div>
+        <!-- Card 4 -->
+        <div class="dor-card">
+          <div class="dor-icon">🏠</div>
+          <div class="dor-text">Visita chegando e a casa nunca estar minimamente pronta</div>
+        </div>
+        <!-- Card 5 -->
+        <div class="dor-card">
+          <div class="dor-icon">👪</div>
+          <div class="dor-text">Fazer tudo sozinha enquanto a família não colabora</div>
+        </div>
+        <!-- Card 6 -->
+        <div class="dor-card">
+          <div class="dor-icon">😔</div>
+          <div class="dor-text">Sensação de culpa por nunca conseguir manter a ordem</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 4 — CONTEÚDO DO PRODUTO -->
+  <section class="section-container produto-section">
+    <div class="produto-container">
+      <h2 class="produto-title">
+        AO GARANTIR O <span class="produto-title-highlight">CASA SEMPRE PRONTA,</span><br>
+        VOCÊ RECEBE:
+      </h2>
+      <p class="produto-subtitle-attention">
+        ⚡ ATENÇÃO: O material é 100% digital e o envio é imediato. Você recebe o acesso direto no seu e-mail e WhatsApp. Sem frete, sem espera e pronto para usar!
+      </p>
+
+      <div class="produto-grid">
+        <!-- Card 1 -->
+        <div class="produto-card">
+          <div class="produto-card-icon-wrapper">⏱️</div>
+          <h3 class="produto-card-title">Protocolo Faxina em 15 Minutos</h3>
+          <ul class="produto-card-list">
+            <li class="produto-card-item">O cronograma diário dividido por cômodo</li>
+            <li class="produto-card-item">Tarefas micro que cabem em qualquer rotina</li>
+            <li class="produto-card-item">Nunca mais acumular sujeira para limpar de uma vez</li>
+          </ul>
+        </div>
+        <!-- Card 2 -->
+        <div class="produto-card">
+          <div class="produto-card-icon-wrapper">🏠</div>
+          <h3 class="produto-card-title">Método Casa Sempre Pronta</h3>
+          <ul class="produto-card-list">
+            <li class="produto-card-item">Como organizar cada cômodo de um jeito que se mantém sozinho</li>
+            <li class="produto-card-item">O sistema que funciona mesmo sem força de vontade</li>
+            <li class="produto-card-item">A lógica que separa organização de arrumação</li>
+          </ul>
+        </div>
+        <!-- Card 3 -->
+        <div class="produto-card">
+          <div class="produto-card-icon-wrapper">⭐</div>
+          <h3 class="produto-card-title">O Segredo das Casas Impecáveis</h3>
+          <ul class="produto-card-list">
+            <li class="produto-card-item">Os hábitos das mulheres que têm a casa sempre pronta</li>
+            <li class="produto-card-item">Como criar uma rotina que você realmente consegue manter</li>
+            <li class="produto-card-item">A virada de mentalidade: de tarefa pesada para hábito leve</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 5 — BRIDGE DE IDENTIDADE -->
+  <section class="section-container bridge-section">
+    <div class="bridge-inner">
+      <h2 class="bridge-title">
+        SE VOCÊ NÃO CRIAR ESSE HÁBITO AGORA,<br>
+        <span class="bridge-title-highlight">A CASA VAI CONTINUAR ROUBANDO SEUS FINS DE SEMANA.</span>
+      </h2>
+      <p class="bridge-text">
+        Você vai continuar acumulando, adiando e se sentindo culpada. Mas com o método certo, 15 minutos por dia são suficientes para ter a casa sempre pronta — todos os dias.
+      </p>
+      <div class="bridge-highlight-line">
+        Um protocolo por dia. Casa sempre arrumada. Fim de semana seu de volta. ❤️
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 6 — BÔNUS -->
+  <section class="section-container bonus-section">
+    <div class="bonus-inner">
+      <span class="badge-pill">Aproveite Hoje</span>
+      <h2 class="bonus-title">Você ainda leva</h2>
+      <div class="bonus-subtitle">#5 BÔNUS EXCLUSIVOS</div>
+
+      <div class="bonus-stack">
+        <!-- Bônus 1 -->
+        <div class="bonus-card">
+          <span class="bonus-badge">Grátis</span>
+          <div class="bonus-icon-wrapper">📋</div>
+          <div class="bonus-content">
+            <span class="bonus-special-label">Bônus Especial #01</span>
+            <h3 class="bonus-card-title">CHECKLIST SEMANAL IMPRIMÍVEL</h3>
+            <p class="bonus-card-desc">Sua lista de tarefas da semana toda em uma única folha. Basta imprimir e marcar o que já foi feito.</p>
+          </div>
+        </div>
+        <!-- Bônus 2 -->
+        <div class="bonus-card">
+          <span class="bonus-badge">Grátis</span>
+          <div class="bonus-icon-wrapper">✨</div>
+          <div class="bonus-content">
+            <span class="bonus-special-label">Bônus Especial #02</span>
+            <h3 class="bonus-card-title">15 MISTURINHAS DE CASA DE RICA</h3>
+            <p class="bonus-card-desc">Receitas caseiras que limpam, perfumam e desinfetam com ingredientes que você já tem no mercado.</p>
+          </div>
+        </div>
+        <!-- Bônus 3 -->
+        <div class="bonus-card">
+          <span class="bonus-badge">Grátis</span>
+          <div class="bonus-icon-wrapper">🚿</div>
+          <div class="bonus-content">
+            <span class="bonus-special-label">Bônus Especial #03</span>
+            <h3 class="bonus-card-title">PROTOCOLO BANHEIRO SEMPRE CHEIROSO</h3>
+            <p class="bonus-card-desc">O passo a passo de 8 minutos que mantém o banheiro limpo e perfumado todos os dias, sem sofrimento.</p>
+          </div>
+        </div>
+        <!-- Bônus 4 -->
+        <div class="bonus-card">
+          <span class="bonus-badge">Grátis</span>
+          <div class="bonus-icon-wrapper">🧽</div>
+          <div class="bonus-content">
+            <span class="bonus-special-label">Bônus Especial #04</span>
+            <h3 class="bonus-card-title">MÉTODO FAXINA SEM SOFRER</h3>
+            <p class="bonus-card-desc">A sequência correta de cômodos para limpar a casa inteira sem extenuação física nem perda de tempo.</p>
+          </div>
+        </div>
+        <!-- Bônus 5 -->
+        <div class="bonus-card">
+          <span class="bonus-badge">Grátis</span>
+          <div class="bonus-icon-wrapper">❄️</div>
+          <div class="bonus-content">
+            <span class="bonus-special-label">Bônus Especial #05</span>
+            <h3 class="bonus-card-title">KIT GELADEIRA EM ORDEM</h3>
+            <p class="bonus-card-desc">Organização e higiene completa da geladeira em menos de 20 minutos. Com lista de validades inclusa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 7 — DEPOIMENTOS -->
+  <section class="section-container depoimentos-section">
+    <div class="depoimentos-inner">
+      <h2 class="depoimentos-title">💖 O que outras mulheres estão dizendo:</h2>
+      
+      <div class="depoimento-list">
+        <!-- Depoimento 1 -->
+        <div class="depoimento-card">
+          <div class="depoimento-avatar-wrapper">
+            <img src="depoimento1.jpg" alt="Juliana Costa" class="depoimento-avatar">
+          </div>
+          <div class="depoimento-stars">⭐⭐⭐⭐⭐</div>
+          <p class="depoimento-text">
+            "Eu costumava passar o sábado inteiro faxinando e, na segunda-feira, a casa já estava um caos. Com os protocolos de 15 minutos, meu fim de semana finalmente é meu de novo!"
+          </p>
+          <span class="depoimento-name">Juliana Costa — São Paulo, SP</span>
+        </div>
+        
+        <!-- Depoimento 2 -->
+        <div class="depoimento-card">
+          <div class="depoimento-avatar-wrapper">
+            <img src="depoimento2.jpg" alt="Mariana Alves" class="depoimento-avatar">
+          </div>
+          <div class="depoimento-stars">⭐⭐⭐⭐⭐</div>
+          <p class="depoimento-text">
+            "A misturinha de casa de rica é simplesmente maravilhosa! Minhas visitas sempre perguntam qual perfume eu uso na casa. A organização virou um hábito leve na rotina."
+          </p>
+          <span class="depoimento-name">Mariana Alves — Rio de Janeiro, RJ</span>
+        </div>
+        
+        <!-- Depoimento 3 -->
+        <div class="depoimento-card">
+          <div class="depoimento-avatar-wrapper">
+            <img src="depoimento3.png" alt="Beatriz Souza" class="depoimento-avatar">
+          </div>
+          <div class="depoimento-stars">⭐⭐⭐⭐⭐</div>
+          <p class="depoimento-text">
+            "Tenho dois filhos pequenos e achava impossível manter tudo arrumado. O cronograma diário por cômodo me salvou, as tarefas são tão rápidas que eu nem sinto."
+          </p>
+          <span class="depoimento-name">Beatriz Souza — Curitiba, PR</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 7.5 — GARANTIA -->
+  <section class="section-container garantia-section">
+    <div class="garantia-container">
+      <div class="garantia-badge-circle">
+        <div class="garantia-circle-inner">
+          <span class="garantia-circle-num">7</span>
+          <span class="garantia-circle-unit">Dias</span>
+          <span class="garantia-circle-label">Garantia</span>
+        </div>
+      </div>
+      <div class="garantia-content">
+        <span class="garantia-pill">Garantia Incondicional de 7 Dias</span>
+        <h2 class="garantia-title">⭐ RISCO ZERO PARA A SUA ROTINA E PARA O SEU BOLSO</h2>
+        <p class="garantia-text">
+          Queremos que você experimente o nosso método com total tranquilidade. Por isso, você tem 7 dias inteiros para testar os nossos protocolos na sua casa. Se por qualquer motivo você sentir que o método não é para você, basta nos enviar uma mensagem no WhatsApp ou e-mail. <span class="garantia-highlight-text">Nós devolvemos 100% do seu dinheiro</span>, sem burocracia, sem perguntas e sem letrinhas miúdas. Você sai satisfeita e nós continuamos amigas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 8 — PREÇOS -->
+  <section class="section-container precos-section" id="precos">
+    <div class="precos-inner">
+      <h2 class="precos-title">
+        GARANTA A SUA CASA<br>
+        <span class="precos-title-highlight">SEMPRE PRONTA</span>
+      </h2>
+      <span class="precos-subtitle-pink">Aproveite a condição especial de lançamento</span>
+
+      <div class="precos-grid">
+        <!-- CARD A — PACOTE SIMPLES -->
+        <div class="preco-card">
+          <div class="preco-card-header-bar">Acesso por 1 ano — 70% OFF</div>
+          <div class="preco-card-body">
+            <h3 class="preco-card-title">Pacote Simples</h3>
+            <p class="preco-card-subtitle">Acesso por 1 ano + produto principal</p>
+
+            <ul class="preco-features-list">
+              <li class="preco-feature-item">Protocolo Faxina em 15 Minutos</li>
+              <li class="preco-feature-item">Método Casa Sempre Pronta</li>
+              <li class="preco-feature-item">O Segredo das Casas Impecáveis</li>
+              <li class="preco-feature-item">Acesso por 1 ano</li>
+              <li class="preco-feature-item">Acesso Imediato por Email/WhatsApp</li>
+              <li class="preco-feature-item">Garantia de 7 dias</li>
+            </ul>
+
+            <div class="preco-box-container">
+              <span class="preco-box-original">Valor original: R$ 33,33</span>
+              <div class="preco-box-value-row">
+                <span class="preco-box-value-integer">10</span>
+                <div class="preco-box-value-decimal-col">
+                  <span class="preco-box-value-decimal">,00</span>
+                  <span class="preco-box-value-currency">Reais</span>
+                </div>
+              </div>
+              <span class="preco-box-footer-label">Pagamento Único · Sem Taxas Extras</span>
+            </div>
+
+            <a href="https://pay.wiapy.com/ZgYeYrew7f" class="btn-preco-cta">Quero o Pacote Simples</a>
+            
+            <div class="preco-under-cta-desc">
+              <span>⚡ Acesso imediato via E-mail e WhatsApp</span>
+            </div>
+
+            <div class="preco-security-badges">
+              <div class="preco-security-badge-item">
+                <span>🛡️ Seguro</span>
+              </div>
+              <div class="preco-security-badge-item">
+                <span>⚡ Instantâneo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD B — PACOTE COMPLETO -->
+        <div class="preco-card" id="pacote-completo">
+          <div class="preco-card-banner"><span class="pulse-text">🔥 O MAIS ESCOLHIDO</span></div>
+          <div class="preco-card-header-bar">Acesso vitalício — 70% OFF</div>
+          <div class="preco-card-body">
+            <h3 class="preco-card-title">Pacote Completo</h3>
+            <p class="preco-card-subtitle">Acesso vitalício + 6 bônus exclusivos</p>
+
+            <ul class="preco-features-list">
+              <li class="preco-feature-item">Protocolo Faxina em 15 Minutos</li>
+              <li class="preco-feature-item">Método Casa Sempre Pronta</li>
+              <li class="preco-feature-item">O Segredo das Casas Impecáveis</li>
+              <li class="preco-feature-item">Acesso Vitalício</li>
+              <li class="preco-feature-item">Acesso Imediato por Email/WhatsApp</li>
+              <li class="preco-feature-item">Garantia de 7 dias</li>
+              <li class="preco-feature-item preco-feature-bonus">Checklist Semanal Imprimível</li>
+              <li class="preco-feature-item preco-feature-bonus">15 Misturinhas de Casa de Rica</li>
+              <li class="preco-feature-item preco-feature-bonus">Protocolo Banheiro Sempre Cheiroso</li>
+              <li class="preco-feature-item preco-feature-bonus">Método Faxina Sem Sofrer</li>
+              <li class="preco-feature-item preco-feature-bonus">Kit Geladeira em Ordem</li>
+              <li class="preco-feature-item preco-feature-bonus">Atualizações Mensais</li>
+            </ul>
+
+            <div class="preco-box-container">
+              <span class="preco-box-original">Valor original: R$ 83,00</span>
+              <div class="preco-box-value-row">
+                <span class="preco-box-value-integer">24</span>
+                <div class="preco-box-value-decimal-col">
+                  <span class="preco-box-value-decimal">,90</span>
+                  <span class="preco-box-value-currency">Reais</span>
+                </div>
+              </div>
+              <span class="preco-box-footer-label">Pagamento Único · Sem Taxas Extras</span>
+            </div>
+
+            <a href="https://pay.wiapy.com/yVjm9SjCiOz" class="btn-preco-cta">Quero o Pacote Completo</a>
+            
+            <div class="preco-under-cta-desc">
+              <span>⚡ Acesso imediato via E-mail e WhatsApp</span>
+            </div>
+
+            <div class="preco-security-badges">
+              <div class="preco-security-badge-item">
+                <span>🛡️ Seguro</span>
+              </div>
+              <div class="preco-security-badge-item">
+                <span>⚡ Instantâneo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 9 — FAQ -->
+  <section class="section-container faq-section">
+    <div class="faq-inner">
+      <h2 class="faq-title">Dúvidas Resolvidas</h2>
+      
+      <div class="faq-container">
+        <!-- FAQ 1 -->
+        <details class="faq-item">
+          <summary>Como funciona o produto?</summary>
+          <div class="faq-content">
+            Casa Sempre Pronta é um conjunto de 3 guias digitais em PDF com sistemas práticos, explicados de forma simples e objetiva, que ensinam como manter a casa organizada todos os dias in apenas 15 minutos — sem faxinas pesadas e sem depender de força de vontade.
+          </div>
+        </details>
+        
+        <!-- FAQ 2 -->
+        <details class="faq-item">
+          <summary>Como recebo o material após o pagamento?</summary>
+          <div class="faq-content">
+            O acesso é enviado automaticamente para o seu e-mail e WhatsApp assim que o pagamento for confirmado. Por isso, preencha corretamente seus dados no momento da compra.
+          </div>
+        </details>
+        
+        <!-- FAQ 3 -->
+        <details class="faq-item">
+          <summary>Por que o valor é tão baixo?</summary>
+          <div class="faq-content">
+            Nosso objetivo é tornar esse conhecimento acessível para o maior número de lares possível. O preço baixo não reduz a qualidade — ele foi pensado para que nenhuma mulher deixe de ter acesso ao método por causa de um valor alto.
+          </div>
+        </details>
+        
+        <!-- FAQ 4 -->
+        <details class="faq-item">
+          <summary>Quais formas de pagamento?</summary>
+          <div class="faq-content">
+            Você pode pagar via Pix (aprovação imediata) ou cartão de crédito em até 4x sem juros.
+          </div>
+        </details>
+        
+        <!-- FAQ 5 -->
+        <details class="faq-item">
+          <summary>Tem garantia?</summary>
+          <div class="faq-content">
+            Sim. Oferecemos 7 dias de garantia total. Se você acessar o material e sentir que não é o que esperava, é só pedir o reembolso — sem burocracia, sem perguntas, o valor devolvido integralmente.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 10 — CTA FINAL -->
+  <section class="section-container cta-final-section">
+    <div class="cta-final-overlay"></div>
+    <div class="cta-final-content">
+      <h2 class="cta-final-title">SUA CASA MERECE</h2>
+      <div class="cta-final-title-sub">ESTAR SEMPRE PRONTA.</div>
+      <p class="cta-final-subtext">
+        E VOCÊ MERECE O FIM DE SEMANA.<br>
+        O CASA SEMPRE PRONTA É O MÉTODO QUE FALTAVA.
+      </p>
+      
+      <a href="#pacote-completo" class="btn-cta-final">QUERO A MINHA CASA PRONTA AGORA</a>
+      
+      <div class="cta-final-alert">
+        <span class="cta-alert-icon">⚡</span> Acesso imediato via E-mail e WhatsApp
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="cta-final-trust">
+        <span><span class="trust-icon-blue">★</span> 4.9/5 ESTRELAS</span>
+        <span class="trust-divider">|</span>
+        <span><span class="trust-icon-pink">♥</span> FEITO PARA VOCÊ</span>
+        <span class="trust-divider">|</span>
+        <span><span class="trust-icon-blue">⚡</span> ACESSO IMEDIATO</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <svg viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+      <span>Casa Sempre Pronta</span>
+    </div>
+    
+    <p class="footer-copyright">
+      © 2025 - CASA SEMPRE PRONTA • TODOS OS DIREITOS RESERVADOS
+    </p>
+    
+    <p class="footer-disclaimer">
+      Esta página não é do Facebook ou Instagram. Os resultados variam conforme a aplicação. Suporte: moreira.digital2026@gmail.com
+    </p>
+  </footer>
+
+</body>
+</html>
