@@ -23,6 +23,16 @@
   /></noscript>
   <!-- End Meta Pixel Code -->
   
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2LSSEKR8LL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-2LSSEKR8LL');
+  </script>
+  
   <!-- Script UTMify -->
   <script
     src="https://cdn.utmify.com.br/scripts/utms/latest.js"
@@ -873,6 +883,21 @@
       justify-content: center;
       flex-shrink: 0;
       box-shadow: 0 12px 28px rgba(224, 82, 130, 0.25);
+      animation: pulse-neon-circle-anim 3s infinite ease-in-out;
+    }
+    @keyframes pulse-neon-circle-anim {
+      0% {
+        background-color: #E05282;
+        box-shadow: 0 12px 28px rgba(224, 82, 130, 0.25);
+      }
+      50% {
+        background-color: #FF5A92; /* neon pink suave e elegante */
+        box-shadow: 0 12px 35px rgba(255, 90, 146, 0.5);
+      }
+      100% {
+        background-color: #E05282;
+        box-shadow: 0 12px 28px rgba(224, 82, 130, 0.25);
+      }
     }
     .garantia-circle-inner {
       border: 1.5px dashed rgba(255, 255, 255, 0.6); /* traço branco mais nítido */
@@ -956,6 +981,7 @@
       padding-bottom: 1px;
     }
 
+
     /* ==========================================================================
        SECTION 8 — PREÇOS
        ========================================================================== */
@@ -1027,10 +1053,22 @@
       scroll-margin-top: 50px; /* Garante que o topo do card fique visível no scroll direto */
       overflow: hidden; /* Garante o recorte correto da faixa de destaque e do cabeçalho */
     }
+    #pacote-completo {
+      order: 1; /* Mobile-first: Pacote Completo aparece primeiro */
+    }
+    #pacote-simples {
+      order: 2; /* Mobile-first: Pacote Simples aparece depois */
+    }
     @media (min-width: 768px) {
       .preco-card {
         border-radius: 40px;
         max-width: 440px; /* Limita a largura no desktop */
+      }
+      #pacote-completo {
+        order: 2; /* No desktop, Pacote Completo vai para a direita */
+      }
+      #pacote-simples {
+        order: 1; /* No desktop, Pacote Simples vai para a esquerda */
       }
     }
     .preco-card:hover {
@@ -1071,6 +1109,23 @@
       100% {
         transform: scale(1);
         opacity: 0.95;
+      }
+    }
+    .pulse-neon-banner {
+      animation: pulse-neon-banner-anim 3s infinite ease-in-out;
+    }
+    @keyframes pulse-neon-banner-anim {
+      0% {
+        background-color: var(--primary);
+        box-shadow: inset 0 0 0 rgba(255, 255, 255, 0), 0 0 0 rgba(212, 80, 122, 0);
+      }
+      50% {
+        background-color: #FF5A92; /* neon pink suave e elegante */
+        box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.25), 0 4px 12px rgba(212, 80, 122, 0.4);
+      }
+      100% {
+        background-color: var(--primary);
+        box-shadow: inset 0 0 0 rgba(255, 255, 255, 0), 0 0 0 rgba(212, 80, 122, 0);
       }
     }
     .preco-card-header-bar {
@@ -1862,7 +1917,7 @@
         <!-- Depoimento 1 -->
         <div class="depoimento-card">
           <div class="depoimento-avatar-wrapper">
-            <img src="depoimento1.jpg" alt="Juliana Costa" class="depoimento-avatar">
+            <img src="depoimento1.png" alt="Juliana Costa" class="depoimento-avatar">
           </div>
           <div class="depoimento-stars">⭐⭐⭐⭐⭐</div>
           <p class="depoimento-text">
@@ -1914,6 +1969,7 @@
         <p class="garantia-text">
           Queremos que você experimente o nosso método com total tranquilidade. Por isso, você tem 7 dias inteiros para testar os nossos protocolos na sua casa. Se por qualquer motivo você sentir que o método não é para você, basta nos enviar uma mensagem no WhatsApp ou e-mail. <span class="garantia-highlight-text">Nós devolvemos 100% do seu dinheiro</span>, sem burocracia, sem perguntas e sem letrinhas miúdas. Você sai satisfeita e nós continuamos amigas.
         </p>
+
       </div>
     </div>
   </section>
@@ -1929,7 +1985,7 @@
 
       <div class="precos-grid">
         <!-- CARD A — PACOTE SIMPLES -->
-        <div class="preco-card">
+        <div class="preco-card" id="pacote-simples">
           <div class="preco-card-header-bar">Acesso por 1 ano — 70% OFF</div>
           <div class="preco-card-body">
             <h3 class="preco-card-title">Pacote Simples</h3>
@@ -1975,11 +2031,11 @@
 
         <!-- CARD B — PACOTE COMPLETO -->
         <div class="preco-card" id="pacote-completo">
-          <div class="preco-card-banner"><span class="pulse-text">🔥 O MAIS ESCOLHIDO</span></div>
+          <div class="preco-card-banner pulse-neon-banner">🔥 O MAIS ESCOLHIDO</div>
           <div class="preco-card-header-bar">Acesso vitalício — 70% OFF</div>
           <div class="preco-card-body">
             <h3 class="preco-card-title">Pacote Completo</h3>
-            <p class="preco-card-subtitle">Acesso vitalício + 6 bônus exclusivos</p>
+            <p class="preco-card-subtitle">Acesso vitalício + 7 bônus exclusivos</p>
 
             <ul class="preco-features-list">
               <li class="preco-feature-item">Protocolo Faxina em 15 Minutos</li>
@@ -1994,6 +2050,7 @@
               <li class="preco-feature-item preco-feature-bonus">Método Faxina Sem Sofrer</li>
               <li class="preco-feature-item preco-feature-bonus">Kit Geladeira em Ordem</li>
               <li class="preco-feature-item preco-feature-bonus">Atualizações Mensais</li>
+              <li class="preco-feature-item preco-feature-bonus">Grupo de Dicas no WhatsApp</li>
             </ul>
 
             <div class="preco-box-container">
@@ -2038,7 +2095,7 @@
         <details class="faq-item">
           <summary>Como funciona o produto?</summary>
           <div class="faq-content">
-            Casa Sempre Pronta é um conjunto de 3 guias digitais em PDF com sistemas práticos, explicados de forma simples e objetiva, que ensinam como manter a casa organizada todos os dias in apenas 15 minutos — sem faxinas pesadas e sem depender de força de vontade.
+            Casa Sempre Pronta é um conjunto de 3 guias digitais em PDF com sistemas práticos, explicados de forma simples e objetiva, que ensinam como manter a casa organizada todos os dias em apenas 15 minutos — sem faxinas pesadas e sem depender de força de vontade.
           </div>
         </details>
         
