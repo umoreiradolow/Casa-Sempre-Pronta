@@ -816,66 +816,18 @@
         font-size: 32px;
       }
     }
-    .depoimento-list {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-      width: 100%;
-      align-items: center;
-    }
-    .depoimento-card {
-      background: var(--white);
-      border-radius: 24px;
-      border: 1px solid #DBEAFE; /* borda azul claro suave */
-      padding: 40px 24px;
+    .depoimentos-image-container {
       width: 100%;
       max-width: 600px;
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(30, 58, 138, 0.04);
-      transition: transform var(--transition-fast);
-    }
-    .depoimento-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 35px rgba(30, 58, 138, 0.06);
-    }
-    .depoimento-avatar-wrapper {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
+      border-radius: 24px;
+      box-shadow: 0 16px 40px rgba(30, 58, 138, 0.06);
       overflow: hidden;
-      margin-bottom: 16px;
-      border: 3px solid #EBF2FD;
-      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.06);
     }
-    .depoimento-avatar {
+    .depoimentos-img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .depoimento-stars {
-      font-size: 20px;
-      margin-bottom: 12px;
-      letter-spacing: 2px;
-    }
-    .depoimento-text {
-      font-size: 15px;
-      font-weight: 500;
-      font-style: italic;
-      color: var(--text-main);
-      line-height: 1.6;
-      max-width: 500px;
-      margin-bottom: 16px;
-    }
-    .depoimento-name {
-      font-weight: 800;
-      font-size: 13px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--primary);
+      height: auto;
+      display: block;
     }
 
     /* ==========================================================================
@@ -1058,17 +1010,10 @@
       }
     }
     .precos-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 32px;
+      display: flex;
+      justify-content: center;
       width: 100%;
-      align-items: start; /* Alinha os cards pelo topo, eliminando o espaço vazio no card menor */
-    }
-    @media (min-width: 768px) {
-      .precos-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 28px;
-      }
+      padding: 0 12px;
     }
 
     /* Card de Preço */
@@ -1088,23 +1033,43 @@
       scroll-margin-top: 50px; /* Garante que o topo do card fique visível no scroll direto */
       overflow: hidden; /* Garante o recorte correto da faixa de destaque e do cabeçalho */
     }
-    #pacote-completo {
-      order: 1; /* Mobile-first: Pacote Completo aparece primeiro */
-    }
-    #pacote-simples {
-      order: 2; /* Mobile-first: Pacote Simples aparece depois */
-    }
     @media (min-width: 768px) {
       .preco-card {
         border-radius: 40px;
-        max-width: 440px; /* Limita a largura no desktop */
+        max-width: 460px; /* Limita a largura no desktop */
       }
-      #pacote-completo {
-        order: 2; /* No desktop, Pacote Completo vai para a direita */
+    }
+
+    /* Breathing pulse animation for CTA buttons */
+    @keyframes pulse-breathing {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.25);
       }
-      #pacote-simples {
-        order: 1; /* No desktop, Pacote Simples vai para a esquerda */
+      50% {
+        transform: scale(1.025);
+        box-shadow: 0 12px 30px rgba(34, 197, 94, 0.45);
       }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.25);
+      }
+    }
+    
+    .btn-pulse-green {
+      animation: pulse-breathing 2s infinite ease-in-out;
+    }
+    
+    .btn-pulse-green:hover {
+      animation-play-state: paused;
+      background: #16A34A !important;
+      transform: scale(1.035) translateY(-2px) !important;
+      box-shadow: 0 12px 35px rgba(34, 197, 94, 0.55) !important;
+    }
+    
+    .btn-pulse-green:active {
+      transform: scale(0.97) translateY(0) !important;
+      transition: transform 0.1s ease !important;
     }
     .preco-card:hover {
       transform: translateY(-6px);
@@ -1770,12 +1735,6 @@
           <span>Sem frete (100% digital)</span>
         </div>
       </div>
-      
-      <!-- Botão CTA no rodapé do Hero -->
-      <div class="hero-cta-wrapper">
-        <a href="#pacote-completo" class="btn-cta-primary hero-cta-btn">QUERO MEU ACESSO AGORA</a>
-        <span class="hero-cta-support">🔒 Pagamento 100% Seguro · Acesso Imediato</span>
-      </div>
     </div>
   </section>
 
@@ -1949,51 +1908,6 @@
     </div>
   </section>
 
-  <!-- SEÇÃO 7 — DEPOIMENTOS -->
-  <section class="section-container depoimentos-section">
-    <div class="depoimentos-inner">
-      <h2 class="depoimentos-title">💖 O que outras mulheres estão dizendo:</h2>
-      
-      <div class="depoimento-list">
-        <!-- Depoimento 1 -->
-        <div class="depoimento-card">
-          <div class="depoimento-avatar-wrapper">
-            <img src="depoimento1.png" alt="Juliana Costa" class="depoimento-avatar">
-          </div>
-          <div class="depoimento-stars">⭐⭐⭐⭐⭐</div>
-          <p class="depoimento-text">
-            "Eu costumava passar o sábado inteiro faxinando e, na segunda-feira, a casa já estava um caos. Com os protocolos de 15 minutos, meu fim de semana finalmente é meu de novo!"
-          </p>
-          <span class="depoimento-name">Juliana Costa — São Paulo, SP</span>
-        </div>
-        
-        <!-- Depoimento 2 -->
-        <div class="depoimento-card">
-          <div class="depoimento-avatar-wrapper">
-            <img src="depoimento2.jpg" alt="Mariana Alves" class="depoimento-avatar">
-          </div>
-          <div class="depoimento-stars">⭐⭐⭐⭐⭐</div>
-          <p class="depoimento-text">
-            "A misturinha de casa de rica é simplesmente maravilhosa! Minhas visitas sempre perguntam qual perfume eu uso na casa. A organização virou um hábito leve na rotina."
-          </p>
-          <span class="depoimento-name">Mariana Alves — Rio de Janeiro, RJ</span>
-        </div>
-        
-        <!-- Depoimento 3 -->
-        <div class="depoimento-card">
-          <div class="depoimento-avatar-wrapper">
-            <img src="depoimento3.png" alt="Beatriz Souza" class="depoimento-avatar">
-          </div>
-          <div class="depoimento-stars">⭐⭐⭐⭐⭐</div>
-          <p class="depoimento-text">
-            "Tenho dois filhos pequenos e achava impossível manter tudo arrumado. O cronograma diário por cômodo me salvou, as tarefas são tão rápidas que eu nem sinto."
-          </p>
-          <span class="depoimento-name">Beatriz Souza — Curitiba, PR</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- SEÇÃO 7.5 — GARANTIA -->
   <section class="section-container garantia-section">
     <div class="garantia-container">
@@ -2015,6 +1929,17 @@
     </div>
   </section>
 
+  <!-- SEÇÃO 7 — DEPOIMENTOS -->
+  <section class="section-container depoimentos-section">
+    <div class="depoimentos-inner">
+      <h2 class="depoimentos-title">💖 O que outras mulheres estão dizendo:</h2>
+      
+      <div class="depoimentos-image-container">
+        <img src="depoimentos_redes.png" alt="Depoimentos de Clientes" class="depoimentos-img">
+      </div>
+    </div>
+  </section>
+
   <!-- SEÇÃO 8 — PREÇOS -->
   <section class="section-container precos-section" id="precos">
     <div class="precos-inner">
@@ -2025,57 +1950,12 @@
       <span class="precos-subtitle-pink">Aproveite a condição especial de lançamento</span>
 
       <div class="precos-grid">
-        <!-- CARD A — PACOTE SIMPLES -->
-        <div class="preco-card" id="pacote-simples">
-          <div class="preco-card-header-bar">Acesso por 1 ano — 70% OFF</div>
-          <div class="preco-card-body">
-            <h3 class="preco-card-title">Pacote Simples</h3>
-            <p class="preco-card-subtitle">Acesso por 1 ano + produto principal</p>
-
-            <ul class="preco-features-list">
-              <li class="preco-feature-item">Protocolo Faxina em 15 Minutos</li>
-              <li class="preco-feature-item">Método Casa Sempre Pronta</li>
-              <li class="preco-feature-item">O Segredo das Casas Impecáveis</li>
-              <li class="preco-feature-item">Acesso por 1 ano</li>
-              <li class="preco-feature-item">Acesso Imediato por Email/WhatsApp</li>
-              <li class="preco-feature-item">Garantia de 7 dias</li>
-            </ul>
-
-            <div class="preco-box-container">
-              <span class="preco-box-original">Valor original: R$ 33,33</span>
-              <div class="preco-box-value-row">
-                <span class="preco-box-value-integer">10</span>
-                <div class="preco-box-value-decimal-col">
-                  <span class="preco-box-value-decimal">,00</span>
-                  <span class="preco-box-value-currency">Reais</span>
-                </div>
-              </div>
-              <span class="preco-box-footer-label">Pagamento Único · Sem Taxas Extras</span>
-            </div>
-
-            <a href="https://pay.wiapy.com/ZgYeYrew7f" class="btn-preco-cta">Quero o Pacote Simples</a>
-            
-            <div class="preco-under-cta-desc">
-              <span>⚡ Acesso imediato via E-mail e WhatsApp</span>
-            </div>
-
-            <div class="preco-security-badges">
-              <div class="preco-security-badge-item">
-                <span>🛡️ Seguro</span>
-              </div>
-              <div class="preco-security-badge-item">
-                <span>⚡ Instantâneo</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD B — PACOTE COMPLETO -->
+        <!-- CARD UNIFICADO -->
         <div class="preco-card" id="pacote-completo">
           <div class="preco-card-banner pulse-neon-banner">🔥 O MAIS ESCOLHIDO</div>
           <div class="preco-card-header-bar">Acesso vitalício — 70% OFF</div>
           <div class="preco-card-body">
-            <h3 class="preco-card-title">Pacote Completo</h3>
+            <h3 class="preco-card-title" style="margin-bottom: 12px;">Material Completo<br>Casa Sempre Pronta</h3>
             <p class="preco-card-subtitle">Acesso vitalício + 7 bônus exclusivos</p>
 
             <ul class="preco-features-list">
@@ -2095,9 +1975,9 @@
             </ul>
 
             <div class="preco-box-container">
-              <span class="preco-box-original">Valor original: R$ 83,00</span>
+              <span class="preco-box-original">Valor original: R$ 67,00</span>
               <div class="preco-box-value-row">
-                <span class="preco-box-value-integer">24</span>
+                <span class="preco-box-value-integer">17</span>
                 <div class="preco-box-value-decimal-col">
                   <span class="preco-box-value-decimal">,90</span>
                   <span class="preco-box-value-currency">Reais</span>
@@ -2106,7 +1986,7 @@
               <span class="preco-box-footer-label">Pagamento Único · Sem Taxas Extras</span>
             </div>
 
-            <a href="https://pay.wiapy.com/yVjm9SjCiOz" class="btn-preco-cta">Quero o Pacote Completo</a>
+            <a href="https://pay.wiapy.com/zLMdbBsdlWI" class="btn-preco-cta btn-pulse-green">QUERO MEU MATERIAL AGORA</a>
             
             <div class="preco-under-cta-desc">
               <span>⚡ Acesso imediato via E-mail e WhatsApp</span>
@@ -2186,7 +2066,7 @@
         O CASA SEMPRE PRONTA É O MÉTODO QUE FALTAVA.
       </p>
       
-      <a href="#pacote-completo" class="btn-cta-final">QUERO A MINHA CASA PRONTA AGORA</a>
+      <a href="#pacote-completo" class="btn-cta-final btn-pulse-green">QUERO MEU MATERIAL AGORA</a>
       
       <div class="cta-final-alert">
         <span class="cta-alert-icon">⚡</span> Acesso imediato via E-mail e WhatsApp
@@ -2221,6 +2101,7 @@
     </p>
   <!-- Rastreamento de Cliques (InitiateCheckout) -->
   <script>
+    // InitiateCheckout tracking
     document.querySelectorAll('.btn-preco-cta, .hero-cta-btn').forEach(button => {
       button.addEventListener('click', function() {
         if (typeof fbq === 'function') {
